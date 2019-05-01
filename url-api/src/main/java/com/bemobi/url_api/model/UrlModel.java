@@ -1,5 +1,8 @@
 package com.bemobi.url_api.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UrlModel {
 	
 	private String urlOriginal;
