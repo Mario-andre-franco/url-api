@@ -92,6 +92,9 @@ Não há requerimentos específicos de ferramentas de ORM, banco de dados a ser 
 
 
 ## Testes no PostMan
-
+* Chamada com Custom Alias que nao existe
+![](chamadaComAlias.gif)
+* Chamada sem Custom Alias
+![](chamadaSemAlias.gif)
 *Chamada com Custom Alias que existe
 ![](aliasexistente.gif)
