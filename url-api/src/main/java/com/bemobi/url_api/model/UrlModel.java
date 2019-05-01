@@ -11,6 +11,7 @@ public class UrlModel {
 	private String tipoDeErro;
 	private String descErro;
 	private String urlEncurtada;
+	private String randomGerado;
 	
 	
 	public String getUrlOriginal() {
@@ -48,6 +49,12 @@ public class UrlModel {
 	}
 	public void setUrlEncurtada(String urlEncurtada) {
 		this.urlEncurtada = urlEncurtada;
+	}
+	public String getRandomGerado() {
+		return randomGerado;
+	}
+	public void setRandomGerado(String randomGerado) {
+		this.randomGerado = randomGerado;
 	}
 	
 	

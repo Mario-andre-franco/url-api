@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -32,12 +31,6 @@ public class Controller {
 	GeraRandomService geraRandom;
 	
 	
-	@RequestMapping(path="", method = RequestMethod.GET)
-	@ResponseBody
-	String acessoErrado() {
-		return "Erro ao acessar";
-	}
-	
 	@RequestMapping(path="/salvar", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<UrlModel> salvarValores(@RequestParam String url,
@@ -46,7 +39,7 @@ public class Controller {
 		UrlEntity urlEntity = new UrlEntity();
 		UrlModel urlModel = new UrlModel();
 		String http = "http://";
-		
+		String random = geraRandom.geraRandom(url);
 		
 		if (StringUtils.isEmpty(alias)) {
 			urlEntity.setUrl(url);
@@ -66,14 +59,10 @@ public class Controller {
 			}	
 			
 		}
-		urlEntity.setUrl(url);
-		urlEntity.setAlias(alias);
-		urlRepo.save(urlEntity);
-		
-		urlModel.setAlias(alias);
 		urlModel.setUrlOriginal(url);
 		urlModel.setTempoResposta(String.valueOf(System.currentTimeMillis() - tempo + "ms"));
-		urlModel.setUrlEncurtada(http + "shortener/u/" + geraRandom.geraRandom(url));
+		urlModel.setUrlEncurtada(http + "shortener/u/" + random);
+		urlModel.setRandomGerado(random);
 		
 		return ResponseEntity.ok(urlModel);
 		
@@ -85,8 +74,6 @@ public class Controller {
 	@ResponseBody
 	public UrlModel redirecionaUrl(@PathVariable String alias, HttpServletResponse servletResponse) throws IOException {
 		UrlModel urlModel = new UrlModel();
-		UrlEntity urlEntity = new UrlEntity();
-		String urlOriginal = null;
 		try {
 				if(!existeAliasBanco(alias)) {
 					urlModel.setTipoDeErro("002");
@@ -94,7 +81,6 @@ public class Controller {
 		} else 
 				geraRandom.redirectUrl(urlModel.getUrlOriginal());
 				servletResponse.sendRedirect(urlModel.getUrlOriginal());
-				System.out.print("redirect para" + urlModel.getUrlOriginal());
 				return null;
 			} catch (Exception e) {
 				UrlModel erroUrl = new UrlModel();

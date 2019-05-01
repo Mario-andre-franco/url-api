@@ -9,6 +9,9 @@ import com.bemobi.url_api.entity.UrlEntity;
 import com.bemobi.url_api.model.UrlModel;
 import com.bemobi.url_api.repository.UrlRepository;
 
+/*Servico para gerar os valores random para colocar apos a url 
+ * Servico utilizado para buscar no banco a url e fazer o redirect*/
+
 @Service
 public class GeraRandomService {
 	
