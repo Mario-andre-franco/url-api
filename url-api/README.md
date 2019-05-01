@@ -100,5 +100,5 @@ Não há requerimentos específicos de ferramentas de ORM, banco de dados a ser 
 ![](chamadaSemAlias.gif)
 
 
-*Chamada com Custom Alias que existe
+* Chamada com Custom Alias que existe
 ![](aliasexistente.gif)
