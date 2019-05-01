@@ -42,7 +42,7 @@ PUT http://shortener/create?url=http://www.bemobi.com.br
    }
 }
 ```
-![](test de put.gif)
+![](aliasexistente.gif)
 * Chamada com CUSTOM_ALIAS
 ```
 PUT http://shortener/create?url=http://www.bemobi.com.br&CUSTOM_ALIAS=bemobi
