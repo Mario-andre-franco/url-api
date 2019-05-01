@@ -42,7 +42,7 @@ PUT http://shortener/create?url=http://www.bemobi.com.br
    }
 }
 ```
-![](aliasexistente.gif)
+
 * Chamada com CUSTOM_ALIAS
 ```
 PUT http://shortener/create?url=http://www.bemobi.com.br&CUSTOM_ALIAS=bemobi
@@ -89,3 +89,9 @@ Não há requerimentos específicos de ferramentas de ORM, banco de dados a ser 
 3. Crie um *client* em uma das linguagens que rodam na JVM para chamar sua API
 4. Faça um diagrama de sequencia da implementação feita nos casos de uso (Dica, use o https://www.websequencediagrams.com/)
 5. Monte um deploy da sua solução utilizando containers 
+
+
+## Testes no PostMan
+
+*Chamada com Custom Alias que existe
+![](aliasexistente.gif)
