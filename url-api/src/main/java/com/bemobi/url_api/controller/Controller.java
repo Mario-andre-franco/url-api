@@ -72,25 +72,27 @@ public class Controller {
 	
 	@RequestMapping(path="/u/{alias}", method = RequestMethod.GET)
 	@ResponseBody
-	public UrlModel redirecionaUrl(@PathVariable String alias, HttpServletResponse servletResponse) throws IOException {
+	public ResponseEntity <UrlModel> redirecionaUrl(@PathVariable String alias, HttpServletResponse servletResponse) throws IOException {
 		UrlModel urlModel = new UrlModel();
-		try {
+		
 				if(!existeAliasBanco(alias)) {
 					urlModel.setTipoDeErro("002");
-					urlModel.setDescErro("nao existe alias no banco");	
-		} else 
-				geraRandom.redirectUrl(urlModel.getUrlOriginal());
-				servletResponse.sendRedirect(urlModel.getUrlOriginal());
-				return null;
-			} catch (Exception e) {
+					urlModel.setDescErro("nao existe alias no banco");
+					return ResponseEntity.ok(urlModel);
+		} 
+				
+				else {
+					geraRandom.redirectUrl(urlModel.getUrlOriginal());
+					servletResponse.sendRedirect(urlModel.getUrlOriginal());
+					urlModel.setUrlOriginal(urlModel.getUrlOriginal());
+					
+				}
 				UrlModel erroUrl = new UrlModel();
 				erroUrl.setTipoDeErro("500");
 				erroUrl.setDescErro("Pagina nao encontrada");
-				return erroUrl;
+				return ResponseEntity.status(200).body(erroUrl);
 			}
-		}
 		
-	
 	
 	
 	public Boolean existeAliasBanco(String alias) {
