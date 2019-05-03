@@ -49,7 +49,7 @@ public class Controller {
 		String random = geraRandom.geraRandom(url);
 		
 		//coloca valor random no alias se nao for passado na url
-		if(alias != null && alias.isEmpty()) {
+		if(alias == null) {
 			alias = random;
 		}
 		
