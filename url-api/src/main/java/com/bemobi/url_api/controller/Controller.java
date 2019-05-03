@@ -12,13 +12,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bemobi.url_api.entity.UrlEntity;
 import com.bemobi.url_api.model.UrlModel;
 import com.bemobi.url_api.repository.UrlRepository;
 import com.bemobi.url_api.service.GeraRandomService;
+import com.bemobi.url_api.types.Errors;
+
+
+/** 
+ * A class Controller faz todo o mapeamento das url's que são passadas.
+ * Após fazer as verificações, é retornado o JSON na tela, dependendo das
+ * regras de negócio.
+ */
 
 @RestController
 public class Controller {
@@ -32,7 +39,6 @@ public class Controller {
 	
 	
 	@RequestMapping(path="/salvar", method = RequestMethod.POST)
-	@ResponseBody
 	public ResponseEntity<UrlModel> salvarValores(@RequestParam String url,
 												   @RequestParam(required=false) String alias,HttpServletResponse response ) {
 		
@@ -41,6 +47,7 @@ public class Controller {
 		UrlModel urlModel = new UrlModel();
 		String http = "http://";
 		String random = geraRandom.geraRandom(url);
+		
 		//coloca valor random no alias se nao for passado na url
 		if(alias != null && alias.isEmpty()) {
 			alias = random;
@@ -52,20 +59,24 @@ public class Controller {
 			urlRepo.save(urlEntity);
 		} else {					
 				urlModel.setAlias(alias);
-				urlModel.setTipoDeErro("001");
-				urlModel.setDescErro("Ja existe alias no banco");
+				urlModel.setTipoDeErro(Errors.ERRO01.getCodigo());
+				urlModel.setDescErro(Errors.ERRO01.getDescricao());
 				
 				return ResponseEntity.ok(urlModel);						
 		}
 		urlModel.setAlias(alias);
 		urlModel.setUrlOriginal(url);
 		urlModel.setTempoResposta(String.valueOf(System.currentTimeMillis() - tempo + "ms"));
-		urlModel.setUrlEncurtada(http + "shortener/u/" + random);
-		urlModel.setRandomGerado(random);
-		
-		return ResponseEntity.ok(urlModel);
-		
-		
+		/* implementado pois estava setando null caso a url nao fosse passada */
+		if (alias == null) {
+			urlModel.setUrlEncurtada(http + "shortener/u/" + random);
+			urlModel.setRandomGerado(random);
+			return ResponseEntity.ok(urlModel);
+		} 
+			urlModel.setUrlEncurtada(http + "shortener/u/" + alias);
+			urlModel.setRandomGerado(random);
+			
+			return ResponseEntity.ok(urlModel);
 	
 	}
 	
@@ -83,18 +94,14 @@ public class Controller {
 		UrlModel urlModel = new UrlModel();
 
 				if(!existeAliasBanco(alias)) {
-					
-					urlModel.setTipoDeErro("002");
-					urlModel.setDescErro("nao existe alias no banco");
+					urlModel.setTipoDeErro(Errors.ERRO02.getCodigo());
+					urlModel.setDescErro(Errors.ERRO02.getDescricao());
 					return urlModel;
 		} else {
 					UrlEntity urlEntity =  urlRepo.findByAlias(alias);
 					String urlRedirect = urlEntity.getUrl();
-					//servletResponse.sendRedirect(urlRedirect);
-					
 					urlModel.setUrlOriginal(urlModel.getUrlOriginal());
-					servletResponse.sendRedirect("http://"+urlRedirect);
-					
+					servletResponse.sendRedirect("http://"+urlRedirect);	
 					return null;
 					
 				}

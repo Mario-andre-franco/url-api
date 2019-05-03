@@ -7,6 +7,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/** 
+ * A entity, é utilizada para parte de banco. Onde são salvos os valores
+ * que sao passados na tela
+ */
 
 @Entity
 @Table(name="db_url")

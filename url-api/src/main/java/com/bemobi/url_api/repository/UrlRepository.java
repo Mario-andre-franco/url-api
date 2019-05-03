@@ -1,5 +1,9 @@
 package com.bemobi.url_api.repository;
 
+/** 
+ * Repository onde esta a parte da persistencia do JPA
+ */
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

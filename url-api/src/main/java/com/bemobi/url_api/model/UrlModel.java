@@ -2,6 +2,10 @@ package com.bemobi.url_api.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+/** 
+ * Model para uso da URL
+ */
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UrlModel {
 	
