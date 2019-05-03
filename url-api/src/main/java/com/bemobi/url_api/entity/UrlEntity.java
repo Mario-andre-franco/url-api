@@ -12,6 +12,20 @@ import javax.persistence.Table;
 @Table(name="db_url")
 public class UrlEntity {
 	
+	public UrlEntity(String url, String alias, String randomUrl) {
+		super();
+		this.url = url;
+		this.alias = alias;
+		this.randomUrl = randomUrl;
+		this.countAlias = 0;
+	}
+
+
+	public UrlEntity() {
+		super();
+	}
+
+
 	@Id
 	@Column(nullable=false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,11 +37,11 @@ public class UrlEntity {
 	@Column(nullable=true)
 	private String alias;
 	
-	@Column(nullable=true)
+	@Column(nullable=true,name="RANDOMURL")
 	private String randomUrl;
 	
 	
-	private int count_alias = 0;
+	private int countAlias = 0;
 
 
 	public Long getId() {
@@ -60,13 +74,13 @@ public class UrlEntity {
 	}
 
 
-	public int getCount_alias() {
-		return count_alias;
+	public int getCountAlias() {
+		return countAlias;
 	}
 
 
-	public void setCount_alias(int count_alias) {
-		this.count_alias = count_alias;
+	public void setCountAlias(int countAlias) {
+		this.countAlias = countAlias;
 	}
 
 
